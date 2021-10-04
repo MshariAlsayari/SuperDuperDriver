@@ -106,6 +106,17 @@
                             <th scope="row">Example Note Title</th>
                             <td>Example Note Description</td>
                         </tr>
+
+                        <tr th:each="note : ${notes}">
+                            <td>
+                                <a target="_blank" class="btn btn-success">View</a>
+                                <a class="btn btn-danger" th:href="@{'/home/notes/'+${note.noteId}}">Delete</a>
+
+                            </td>
+                            <th scope="row"><span th:text="${note.noteTitle}">NoteTitle</span></th>
+                            <td><span th:text="${note.noteDescription}">NoteDescription</span></td>
+                        </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -121,7 +132,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="#" method="POST">
+                                <form action="#" th:action="@{/home/notes}" method="POST">
                                     <input type="hidden" name="noteId" id="note-id">
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">Title</label>
