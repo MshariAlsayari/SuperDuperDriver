@@ -7,6 +7,7 @@ import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,31 +74,48 @@ public class HomeController {
         } catch (Exception e) {
             model.addAttribute("uploadError", e.getMessage());
         }
-        homeView(model);
+        model.addAttribute("files", this.fileService.getFiles());
         return "home";
     }
 
-    @GetMapping("files/{fileId}")
+    @GetMapping(
+            value = "/get-files/{fileName}",
+            produces = {MediaType.APPLICATION_PDF_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_CBOR_VALUE,
+                    MediaType.APPLICATION_PROBLEM_XML_VALUE}
+    )
+    public @ResponseBody
+    byte[] getFile(@PathVariable(name = "fileName") String fileName) {
+        return fileService.getFile(fileName).getFiledata();
+    }
+
+    @GetMapping("delete-files/{fileId}")
     public String deleteFile(@PathVariable(name = "fileId") Integer fileId, Model model) {
         fileService.deleteFile(fileId);
-        homeView(model);
+        model.addAttribute("files", this.fileService.getFiles());
         return "home";
     }
 
     @PostMapping("notes")
     public String submitNote(Authentication authentication, @ModelAttribute Note note, Model model) {
-        String uploadError = null;
         User user = userService.getUser(authentication.getName());
         note.setUserid(user.getUserId());
-        noteService.createNote(note);
-        homeView(model);
+
+        if (noteService.isExist(note.getNoteId())) {
+            noteService.updateNote(note);
+        } else {
+            noteService.createNote(note);
+        }
+
+        model.addAttribute("notes", this.noteService.getAllNotes());
         return "home";
     }
 
     @GetMapping("notes/{noteId}")
     public String deleteNote(@PathVariable(name = "noteId") Integer noteId, Model model) {
         noteService.deleteNote(noteId);
-        homeView(model);
+        model.addAttribute("notes", this.noteService.getAllNotes());
         return "home";
     }
 

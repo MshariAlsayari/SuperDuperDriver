@@ -71,8 +71,9 @@
                         <div th:each="file : ${files}">
                             <tr>
                                 <td>
-                                    <a target="_blank" class="btn btn-success">View</a>
-                                    <a class="btn btn-danger" th:href="@{'/home/files/'+${file.fileId}}">Delete</a>
+                                    <a target="_blank" class="btn btn-success"
+                                       th:href="@{'/home/get-files/'+${file.filename}}">View</a>
+                                    <a class="btn btn-danger" th:href="@{'/home/delete-files/'+${file.fileId}}">Delete</a>
                                 </td>
                                 <th scope="row"><span th:text="${file.filename}">FileName</span></th>
                             </tr>
@@ -109,7 +110,11 @@
 
                         <tr th:each="note : ${notes}">
                             <td>
-                                <a target="_blank" class="btn btn-success">View</a>
+                                <button type="button" class="btn btn-success"
+                                        th:data-id="${note.getNoteId()}"
+                                        th:data-title="${note.getNoteTitle()}"
+                                        th:data-description="${note.getNoteDescription()}"
+                                        onclick="showNoteModal(this.getAttribute('data-id'), this.getAttribute('data-title'), this.getAttribute('data-description'))">Edit</button>
                                 <a class="btn btn-danger" th:href="@{'/home/notes/'+${note.noteId}}">Delete</a>
 
                             </td>

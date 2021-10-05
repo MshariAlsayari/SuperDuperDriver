@@ -31,6 +31,10 @@ public class FileService {
         return fileMapper.getAllFile();
     }
 
+    public  File getFile(String fileName){
+        return fileMapper.getFile(fileName);
+    }
+
     public  void deleteFile(Integer fileId){
         fileMapper.deleteFile(fileId);
     }

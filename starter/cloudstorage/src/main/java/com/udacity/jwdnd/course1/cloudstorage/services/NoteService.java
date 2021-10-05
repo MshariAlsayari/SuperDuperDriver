@@ -16,8 +16,15 @@ public class NoteService {
         this.noteMapper = noteMapper;
     }
 
+    public boolean isExist(Integer noteId){
+        return noteMapper.getNote(noteId) != null;
+    }
     public int createNote(Note note) {
         return noteMapper.insertNote(new Note(null, note.getNoteTitle(), note.getNoteDescription(), note.getUserid()));
+    }
+
+    public void updateNote(Note note){
+        noteMapper.updateNote(note.getNoteId(), note.getNoteTitle(), note.getNoteDescription());
     }
 
     public void deleteNote(Integer noteId) {
