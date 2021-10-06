@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 
+import com.udacity.jwdnd.course1.cloudstorage.models.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.models.Note;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -149,6 +150,21 @@ public class HomePage {
         wait.until(ExpectedConditions.elementToBeClickable(txtModifyNoteDescription)).sendKeys(newNoteDescription);
     }
 
+    public void modifyCredentialUrl(String newCredentialUrl) {
+        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUrl)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUrl)).sendKeys(newCredentialUrl);
+    }
+
+    public void modifyCredentialUsername(String newUsername) {
+        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUsername)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUsername)).sendKeys(newUsername);
+    }
+
+    public void modifyCredentialPassword(String newPassword) {
+        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialPassword)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialPassword)).sendKeys(newPassword);
+    }
+
     public void navToNotesTab() {
         js.executeScript("arguments[0].click();", navNotesTab);
     }
@@ -193,6 +209,13 @@ public class HomePage {
         String title = wait.until(ExpectedConditions.elementToBeClickable(tableNoteTitle)).getText();
         String description = tableNoteDescription.getText();
         return new Note(title, description);
+    }
+
+    public Credential getFirstCredential() {
+        String url =  wait.until(ExpectedConditions.elementToBeClickable(tblCredentialUrl)).getText();
+        String username = tblCredentialUsername.getText();
+        String password = tblCredentialPassword.getText();
+        return new Credential(url, username, password);
     }
 
 

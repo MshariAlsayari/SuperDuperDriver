@@ -28,7 +28,6 @@ class NoteTests extends CloudStorageApplicationTests {
 
 	private void deleteNote(HomePage homePage) {
 		homePage.deleteNote();
-
 	}
 
 	/**
