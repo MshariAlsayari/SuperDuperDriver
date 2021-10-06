@@ -16,6 +16,13 @@ public class CredentialService {
         this.credentialMapper = credentialMapper;
     }
 
+    public boolean isExist(Integer credential){
+        return credentialMapper.getCredential(credential) != null;
+    }
+
+    public Credential getCredential(Integer credential){
+        return credentialMapper.getCredential(credential);
+    }
     public int createCredential(Credential credential) {
         return credentialMapper.insertCredential(new Credential(null,
                 credential.getUrl(),
@@ -27,6 +34,14 @@ public class CredentialService {
 
     public List<Credential> getAllCredential( ) {
         return credentialMapper.getAllCredentials();
+    }
+
+    public void deleteCredential(Integer credential) {
+        credentialMapper.deleteCredential(credential);
+    }
+
+    public void updateCredential(Credential credential) {
+        credentialMapper.updateCredential(credential.getUserid(), credential.getUrl(), credential.getUsername(), credential.getPassword());
     }
 
 

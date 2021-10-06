@@ -81,8 +81,8 @@ public class HomeController {
         } catch (Exception e) {
             model.addAttribute("uploadError", e.getMessage());
         }
-        model.addAttribute("files", this.fileService.getFiles());
-        return "home";
+
+        return homeView(model);
     }
 
     @GetMapping(
@@ -100,8 +100,7 @@ public class HomeController {
     @GetMapping("delete-files/{fileId}")
     public String deleteFile(@PathVariable(name = "fileId") Integer fileId, Model model) {
         fileService.deleteFile(fileId);
-        model.addAttribute("files", this.fileService.getFiles());
-        return "home";
+        return homeView(model);
     }
 
     @PostMapping("notes")
@@ -115,21 +114,21 @@ public class HomeController {
             noteService.createNote(note);
         }
 
-        model.addAttribute("notes", this.noteService.getAllNotes());
-        return "home";
+        return homeView(model);
     }
 
     @GetMapping("notes/{noteId}")
     public String deleteNote(@PathVariable(name = "noteId") Integer noteId, Model model) {
         noteService.deleteNote(noteId);
-        model.addAttribute("notes", this.noteService.getAllNotes());
-        return "home";
+        return homeView(model);
     }
 
     @PostMapping("credentials")
     public String submitCredential(Authentication authentication, @ModelAttribute Credential credential, Model model) {
 
         User user = userService.getUser(authentication.getName());
+
+
         SecureRandom random = new SecureRandom();
         byte[] key = new byte[16];
         random.nextBytes(key);
@@ -139,11 +138,21 @@ public class HomeController {
         credential.setKey(encodedKey);
         credential.setPassword(encryptedPassword);
 
-        credentialService.createCredential(credential);
+
+        if (credentialService.isExist(credential.getCredentialId())) {
+            credentialService.updateCredential(credential);
+        }else {
+            credentialService.createCredential(credential);
+        }
 
 
-        model.addAttribute("credentials", this.credentialService.getAllCredential());
-        return "home";
+        return homeView(model);
+    }
+
+    @GetMapping("credentials/{credentialId}")
+    public String deleteCredential(@PathVariable(name = "credentialId") Integer credentialId, Model model) {
+        credentialService.deleteCredential(credentialId);
+        return homeView(model);
     }
 
 }

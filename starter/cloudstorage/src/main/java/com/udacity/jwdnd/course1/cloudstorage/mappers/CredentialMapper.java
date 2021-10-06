@@ -18,7 +18,7 @@ public interface CredentialMapper {
     void deleteCredential(Integer credentialId);
 
     @Update("UPDATE CREDENTIALS SET url = #{url},username = #{username}, password = #{password} WHERE credentialid = #{credentialId}")
-    void updateNote(Integer credentialId, String url, String username, String password);
+    void updateCredential(Integer credentialId, String url, String username, String password);
 
     @Insert("INSERT INTO CREDENTIALS (url, username, key, password, userid) VALUES(#{url}, #{username}, #{key}, #{password}, #{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "credentialId")

@@ -9,11 +9,18 @@ public class Note {
     public Note() {
     }
 
+
+
     public Note(Integer noteId, String noteTitle, String noteDescription, Integer userid) {
         this.noteId = noteId;
         this.noteTitle = noteTitle;
         this.noteDescription = noteDescription;
         this.userid = userid;
+    }
+
+    public Note(String noteTitle, String noteDescription) {
+        this.noteTitle = noteTitle;
+        this.noteDescription = noteDescription;
     }
 
     public Integer getNoteId() {
