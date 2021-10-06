@@ -19,6 +19,10 @@ public class NoteService {
     public boolean isExist(Integer noteId){
         return noteMapper.getNote(noteId) != null;
     }
+
+    public boolean isDuplicated(Note note){
+        return noteMapper.getNoteByTitleAndDescription(note.getNoteTitle(), note.getNoteDescription()) != null;
+    }
     public int createNote(Note note) {
         return noteMapper.insertNote(new Note(null, note.getNoteTitle(), note.getNoteDescription(), note.getUserid()));
     }
