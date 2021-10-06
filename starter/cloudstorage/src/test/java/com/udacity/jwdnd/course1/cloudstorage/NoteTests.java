@@ -11,72 +11,73 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class NoteTests extends CloudStorageApplicationTests {
-	/**
-	 * Test that edits an existing note and verifies that the changes are displayed.
-	 */
+
+
+
+	@Test
+	public void testModify() {
+		String noteTitle = "test Note";
+		String noteDescription = "This is test note.";
+		String editedNoteTitle = "My edit Note";
+		String editedNoteDescription = "This is my edit note.";
+		HomePage homePage = doSingupAndLogin();
+		initNote(noteTitle, noteDescription, homePage);
+		homePage.navigateToNotesTab();
+		homePage = new HomePage(driver);
+		homePage.clickEdtNoteBtn();
+		homePage.editNoteTitle(editedNoteTitle);
+		homePage.editNoteDescription(editedNoteDescription);
+		homePage.clickSaveNoteChangesBtn();
+		homePage.navigateToNotesTab();
+		Note note = homePage.getNote();
+		Assertions.assertEquals(editedNoteTitle, note.getNoteTitle());
+		Assertions.assertEquals(editedNoteDescription, note.getNoteDescription());
+	}
+
+
+
+
+
+	@Test
+	public void testCreateAndDisplay() {
+		String noteTitle = "test Note";
+		String noteDescription = "This is test note.";
+		HomePage homePage = doSingupAndLogin();
+		initNote(noteTitle, noteDescription, homePage);
+		homePage.navigateToNotesTab();
+		homePage = new HomePage(driver);
+		Note note = homePage.getNote();
+		Assertions.assertEquals(noteTitle, note.getNoteTitle());
+		Assertions.assertEquals(noteDescription, note.getNoteDescription());
+		homePage.logout();
+	}
+
 	@Test
 	public void testDelete() {
-		String noteTitle = "My Note";
-		String noteDescription = "This is my note.";
-		HomePage homePage = signUpAndLogin();
-		createNote(noteTitle, noteDescription, homePage);
-		homePage.navToNotesTab();
+		String noteTitle = "test Note";
+		String noteDescription = "This is test note";
+		HomePage homePage = doSingupAndLogin();
+		initNote(noteTitle, noteDescription, homePage);
+		homePage.navigateToNotesTab();
 		homePage = new HomePage(driver);
 		deleteNote(homePage);
-		Assertions.assertTrue(homePage.noNotes(driver));
+		boolean isNoNote = homePage.noNotes(driver);
+		Assertions.assertTrue(isNoNote);
 	}
 
 	private void deleteNote(HomePage homePage) {
 		homePage.deleteNote();
 	}
 
-	/**
-	 * Test that creates a note, and verifies it is displayed.
-	 */
-	@Test
-	public void testCreateAndDisplay() {
-		String noteTitle = "My Note";
-		String noteDescription = "This is my note.";
-		HomePage homePage = signUpAndLogin();
-		createNote(noteTitle, noteDescription, homePage);
-		homePage.navToNotesTab();
-		homePage = new HomePage(driver);
-		Note note = homePage.getFirstNote();
-		Assertions.assertEquals(noteTitle, note.getNoteTitle());
-		Assertions.assertEquals(noteDescription, note.getNoteDescription());
-		deleteNote(homePage);
-		homePage.logout();
-	}
 
-	/**
-	 * Test that edits an existing note and verifies that the changes are displayed.
-	 */
-	@Test
-	public void testModify() {
-		String noteTitle = "My Note";
-		String noteDescription = "This is my note.";
-		HomePage homePage = signUpAndLogin();
-		createNote(noteTitle, noteDescription, homePage);
-		homePage.navToNotesTab();
-		homePage = new HomePage(driver);
-		homePage.editNote();
-		String modifiedNoteTitle = "My Modified Note";
-		homePage.modifyNoteTitle(modifiedNoteTitle);
-		String modifiedNoteDescription = "This is my modified note.";
-		homePage.modifyNoteDescription(modifiedNoteDescription);
-		homePage.saveNoteChanges();
-		homePage.navToNotesTab();
-		Note note = homePage.getFirstNote();
-		Assertions.assertEquals(modifiedNoteTitle, note.getNoteTitle());
-		Assertions.assertEquals(modifiedNoteDescription, note.getNoteDescription());
-	}
 
-	private void createNote(String noteTitle, String noteDescription, HomePage homePage) {
-		homePage.navToNotesTab();
+
+	private void initNote(String noteTitle, String noteDescription, HomePage homePage) {
+		homePage.navigateToNotesTab();
 		homePage.addNewNote();
 		homePage.setNoteTitle(noteTitle);
 		homePage.setNoteDescription(noteDescription);
-		homePage.saveNoteChanges();
-		homePage.navToNotesTab();
+		homePage.clickSaveNoteChangesBtn();
+		homePage.navigateToNotesTab();
 	}
 }

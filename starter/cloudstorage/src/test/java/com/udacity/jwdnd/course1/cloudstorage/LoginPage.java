@@ -6,35 +6,21 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class SignupPageM {
-    @FindBy(id = "inputFirstName")
-    private WebElement inputFirstName;
-
-    @FindBy(id = "inputLastName")
-    private WebElement inputLastName;
-
+public class LoginPage {
     @FindBy(id = "inputUsername")
     private WebElement inputUserName;
 
     @FindBy(id = "inputPassword")
     private WebElement inputPassword;
 
-    @FindBy(id = "submit-button")
-    private WebElement submitButton;
+    @FindBy(id = "submit")
+    private WebElement submitBtn;
 
     private final JavascriptExecutor js;
 
-    public SignupPageM(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
-    }
-
-    public void setFirstName(String firstName) {
-        js.executeScript("arguments[0].value='"+ firstName +"';", inputFirstName);
-    }
-
-    public void setLastName(String lastName) {
-        js.executeScript("arguments[0].value='"+ lastName +"';", inputLastName);
     }
 
     public void setUserName(String userName) {
@@ -45,7 +31,7 @@ public class SignupPageM {
         js.executeScript("arguments[0].value='"+ password +"';", inputPassword);
     }
 
-    public void signUp() {
-        js.executeScript("arguments[0].click();", submitButton);
+    public void login() {
+        js.executeScript("arguments[0].click();", submitBtn);
     }
 }

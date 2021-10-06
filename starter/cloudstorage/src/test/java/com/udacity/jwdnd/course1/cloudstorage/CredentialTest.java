@@ -2,7 +2,6 @@ package com.udacity.jwdnd.course1.cloudstorage;
 
 
 import com.udacity.jwdnd.course1.cloudstorage.models.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.models.Note;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,12 +15,13 @@ public class CredentialTest extends CloudStorageApplicationTests {
         String url = "localhost";
         String userName = "Admin";
         String password = "Admin12345";
-        HomePage homePage = signUpAndLogin();
-        createCredential(url, userName, password, homePage);
-        homePage.navToCredentialsTab();
+        HomePage homePage = doSingupAndLogin();
+        initCredential(url, userName, password, homePage);
+        homePage.navigateToCredentialsTab();
         homePage = new HomePage(driver);
         deleteCredential(homePage);
-        Assertions.assertTrue(homePage.noCredentials(driver));
+        boolean isNoCredentials= homePage.noCredentials(driver);
+        Assertions.assertTrue(isNoCredentials);
     }
 
     private void deleteCredential(HomePage homePage) {
@@ -33,11 +33,11 @@ public class CredentialTest extends CloudStorageApplicationTests {
         String url = "localhost";
         String userName = "Admin";
         String password = "Admin12345";
-        HomePage homePage = signUpAndLogin();
-        createCredential(url, userName, password, homePage);
-        homePage.navToCredentialsTab();
+        HomePage homePage = doSingupAndLogin();
+        initCredential(url, userName, password, homePage);
+        homePage.navigateToCredentialsTab();
         homePage = new HomePage(driver);
-        Credential credential = homePage.getFirstCredential();
+        Credential credential = homePage.getCredential();
         Assertions.assertEquals(url, credential.getUrl());
         Assertions.assertEquals(userName, credential.getUsername());
         homePage.logout();
@@ -48,31 +48,31 @@ public class CredentialTest extends CloudStorageApplicationTests {
         String url = "localhost";
         String userName = "Admin";
         String password = "Admin12345";
-        HomePage homePage = signUpAndLogin();
-        createCredential(url, userName, password, homePage);
-        homePage.navToCredentialsTab();
+        String modifiedCredentialUrl = "My edit Credential URL";
+        String modifiedCredentialUsername = "My edit Credential Usernam";
+        String modifiedCredentialPassword = "My edit Credential Password";
+        HomePage homePage = doSingupAndLogin();
+        initCredential(url, userName, password, homePage);
+        homePage.navigateToCredentialsTab();
         homePage = new HomePage(driver);
-        homePage.editCredential();
-        String modifiedCredentialUrl = "My Modified Credential URL";
-        String modifiedCredentialUsername = "My Modified Credential Usernam";
-        String modifiedCredentialPassword = "My Modified Credential Password";
-        homePage.modifyCredentialUrl(modifiedCredentialUrl);
-        homePage.modifyCredentialUsername(modifiedCredentialUsername);
-        homePage.modifyCredentialPassword(modifiedCredentialPassword);
-        homePage.saveCredentialChanges();
-        homePage.navToCredentialsTab();
-        Credential credential = homePage.getFirstCredential();
+        homePage.clickEditCredentialBtn();
+        homePage.editCredentialUrl(modifiedCredentialUrl);
+        homePage.editCredentialUsername(modifiedCredentialUsername);
+        homePage.editCredentialPassword(modifiedCredentialPassword);
+        homePage.clickSaveCredentialChangesBtn();
+        homePage.navigateToCredentialsTab();
+        Credential credential = homePage.getCredential();
         Assertions.assertEquals(modifiedCredentialUrl, credential.getUrl());
         Assertions.assertEquals(modifiedCredentialUsername, credential.getUsername());
     }
 
-    private void createCredential(String url, String userName, String password, HomePage homePage) {
-        homePage.navToCredentialsTab();
+    private void initCredential(String url, String userName, String password, HomePage homePage) {
+        homePage.navigateToCredentialsTab();
         homePage.addNewCredential();
         homePage.setCredentialUrl(url);
         homePage.setCredentialUsername(userName);
         homePage.setCredentialPassword(password);
-        homePage.saveCredentialChanges();
-        homePage.navToCredentialsTab();
+        homePage.clickSaveCredentialChangesBtn();
+        homePage.navigateToCredentialsTab();
     }
 }

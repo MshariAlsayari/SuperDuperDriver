@@ -96,11 +96,11 @@ public class HomePage {
         js.executeScript("arguments[0].click();", logoutButton);
     }
 
-    public void editNote() {
+    public void clickEdtNoteBtn() {
         js.executeScript("arguments[0].click();", btnEditNote);
     }
 
-    public void editCredential() {
+    public void clickEditCredentialBtn() {
         js.executeScript("arguments[0].click();", btnEditCredential);
     }
 
@@ -140,36 +140,36 @@ public class HomePage {
         js.executeScript("arguments[0].value='" + password + "';", txtCredentialPassword);
     }
 
-    public void modifyNoteTitle(String newNoteTitle) {
+    public void editNoteTitle(String newNoteTitle) {
         wait.until(ExpectedConditions.elementToBeClickable(txtNoteTitle)).clear();
         wait.until(ExpectedConditions.elementToBeClickable(txtNoteTitle)).sendKeys(newNoteTitle);
     }
 
-    public void modifyNoteDescription(String newNoteDescription) {
+    public void editNoteDescription(String newNoteDescription) {
         wait.until(ExpectedConditions.elementToBeClickable(txtModifyNoteDescription)).clear();
         wait.until(ExpectedConditions.elementToBeClickable(txtModifyNoteDescription)).sendKeys(newNoteDescription);
     }
 
-    public void modifyCredentialUrl(String newCredentialUrl) {
+    public void editCredentialUrl(String newCredentialUrl) {
         wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUrl)).clear();
         wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUrl)).sendKeys(newCredentialUrl);
     }
 
-    public void modifyCredentialUsername(String newUsername) {
+    public void editCredentialUsername(String newUsername) {
         wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUsername)).clear();
         wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUsername)).sendKeys(newUsername);
     }
 
-    public void modifyCredentialPassword(String newPassword) {
+    public void editCredentialPassword(String newPassword) {
         wait.until(ExpectedConditions.elementToBeClickable(txtCredentialPassword)).clear();
         wait.until(ExpectedConditions.elementToBeClickable(txtCredentialPassword)).sendKeys(newPassword);
     }
 
-    public void navToNotesTab() {
+    public void navigateToNotesTab() {
         js.executeScript("arguments[0].click();", navNotesTab);
     }
 
-    public void navToCredentialsTab() {
+    public void navigateToCredentialsTab() {
         js.executeScript("arguments[0].click();", navCredentialsTab);
     }
 
@@ -177,11 +177,11 @@ public class HomePage {
         js.executeScript("arguments[0].value='"+ noteDescription +"';", txtNoteDescription);
     }
 
-    public void saveNoteChanges() {
+    public void clickSaveNoteChangesBtn() {
         js.executeScript("arguments[0].click();", btnSaveChanges);
     }
 
-    public void saveCredentialChanges() {
+    public void clickSaveCredentialChangesBtn() {
         js.executeScript("arguments[0].click();", btnCredentialSaveChanges);
     }
 
@@ -205,13 +205,13 @@ public class HomePage {
         }
     }
 
-    public Note getFirstNote() {
+    public Note getNote() {
         String title = wait.until(ExpectedConditions.elementToBeClickable(tableNoteTitle)).getText();
         String description = tableNoteDescription.getText();
         return new Note(title, description);
     }
 
-    public Credential getFirstCredential() {
+    public Credential getCredential() {
         String url =  wait.until(ExpectedConditions.elementToBeClickable(tblCredentialUrl)).getText();
         String username = tblCredentialUsername.getText();
         String password = tblCredentialPassword.getText();

@@ -45,19 +45,31 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
 
-	protected HomePage signUpAndLogin() {
+	@Test
+	public void getSignppPage() {
 		driver.get("http://localhost:" + this.port + "/signup");
-		SignupPageM signupPageM = new SignupPageM(driver);
-		signupPageM.setFirstName("John");
-		signupPageM.setLastName("Lennon");
-		signupPageM.setUserName("lennon");
-		signupPageM.setPassword("julia");
-		signupPageM.signUp();
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.setFirstName("Mshari");
+		signupPage.setLastName("Alsayari");
+		signupPage.setUserName("mshari");
+		signupPage.setPassword("mshari");
+		signupPage.signUp();
+		Assertions.assertEquals("Sign Up", driver.getTitle());
+	}
+
+	protected HomePage doSingupAndLogin() {
+		driver.get("http://localhost:" + this.port + "/signup");
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.setFirstName("Mshari");
+		signupPage.setLastName("Alsayari");
+		signupPage.setUserName("mshari");
+		signupPage.setPassword("mshari");
+		signupPage.signUp();
 		driver.get("http://localhost:" + this.port + "/login");
-		LoginPageM loginPageM = new LoginPageM(driver);
-		loginPageM.setUserName("lennon");
-		loginPageM.setPassword("julia");
-		loginPageM.login();
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.setUserName("mshari");
+		loginPage.setPassword("mshari");
+		loginPage.login();
 
 		return new HomePage(driver);
 	}
