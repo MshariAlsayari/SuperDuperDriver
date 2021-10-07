@@ -23,12 +23,20 @@ public class FileService {
         return fileMapper.getFile(fileName) == null;
     }
 
+    // covert to MB then check if it is equal or small than 5MB
+    public boolean isFileLarge(File file) {
+        long fileInBtye = Long.parseLong(file.getFileSize());
+        long fileKB = fileInBtye /1024;
+        long fileInMB = fileKB /1024;
+        return fileInMB > 5L ;
+    }
+
     public int createFile(File file) {
         return fileMapper.insertFile(new File(null, file.getFilename(), file.getContentType(), file.getFileSize(), file.getUserid(), file.getFiledata()));
     }
 
-    public  List<File> getFiles(){
-        return fileMapper.getAllFile();
+    public  List<File> getFiles(Integer userId){
+        return fileMapper.getAllFile(userId);
     }
 
     public  File getFile(String fileName){

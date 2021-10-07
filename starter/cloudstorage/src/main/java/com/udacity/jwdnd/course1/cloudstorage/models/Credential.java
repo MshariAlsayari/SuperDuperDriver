@@ -1,7 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.models;
 
-import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
-
 public class Credential {
     private Integer credentialId;
     private String url;

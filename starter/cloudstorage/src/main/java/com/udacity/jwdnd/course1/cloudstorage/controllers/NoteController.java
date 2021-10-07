@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
 
 import com.udacity.jwdnd.course1.cloudstorage.models.Note;
+import com.udacity.jwdnd.course1.cloudstorage.models.STATUS;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
@@ -25,31 +26,56 @@ public class NoteController {
     @PostMapping()
     public String submitNote(Authentication authentication, @ModelAttribute Note note, Model model) {
         User user = userService.getUser(authentication.getName());
+        STATUS status;
         note.setUserid(user.getUserId());
 
+        if (!noteService.isValidTitle(note.getNoteTitle())){
+            status = STATUS.error;
+            model.addAttribute("notes", this.noteService.getAllNotes(user.getUserId()));
+            model.addAttribute("result", status.name());
+            model.addAttribute("message", "The length of title should be less than 21");
+            return "result";
+        }
+
+        if (!noteService.isValidDescription(note.getNoteDescription())){
+            status = STATUS.error;
+            model.addAttribute("notes", this.noteService.getAllNotes(user.getUserId()));
+            model.addAttribute("result", status.name());
+            model.addAttribute("message", "The length of description should be less than 1001");
+            return "result";
+        }
+
+
         if (noteService.isExist(note.getNoteId())) {
-            model.addAttribute("addNoteSuccess", true);
             noteService.updateNote(note);
+            status = STATUS.success;
+            model.addAttribute("message", "The note is updated");
         } else {
 
             if (noteService.isDuplicated(note)) {
-                model.addAttribute("addNoteError", true);
+                status = STATUS.error;
+                model.addAttribute("message", "The note is duplicated");
             } else {
-                model.addAttribute("addNoteSuccess", true);
                 noteService.createNote(note);
+                model.addAttribute("message", "The note is created");
+                status = STATUS.success;
             }
         }
 
 
 
-        model.addAttribute("notes", this.noteService.getAllNotes());
-        return "home";
+        model.addAttribute("notes", this.noteService.getAllNotes(user.getUserId()));
+        model.addAttribute("result", status.name());
+        return "result";
     }
 
     @GetMapping("/{noteId}")
-    public String deleteNote(@PathVariable(name = "noteId") Integer noteId, Model model) {
+    public String deleteNote(Authentication authentication, @PathVariable(name = "noteId") Integer noteId, Model model) {
+        User user = userService.getUser(authentication.getName());
         noteService.deleteNote(noteId);
-        model.addAttribute("notes", this.noteService.getAllNotes());
-        return "home";
+        model.addAttribute("notes", this.noteService.getAllNotes(user.getUserId()));
+        model.addAttribute("message", "The note is deleted");
+        model.addAttribute("result",  STATUS.success.name());
+        return "result";
     }
 }

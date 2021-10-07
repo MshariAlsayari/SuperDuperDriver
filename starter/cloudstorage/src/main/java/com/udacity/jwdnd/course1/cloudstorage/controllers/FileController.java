@@ -26,11 +26,11 @@ public class FileController {
 
     @PostMapping()
     public String uploadFile(Authentication authentication, @RequestParam("fileUpload") MultipartFile file, Model model) {
-
+        User user = userService.getUser(authentication.getName());
         try {
 
             String uploadError = null;
-            User user = userService.getUser(authentication.getName());
+
             File myFile = new File();
 
             myFile.setFiledata(file.getBytes());
@@ -39,9 +39,20 @@ public class FileController {
             myFile.setFilename(file.getOriginalFilename());
             myFile.setUserid(user.getUserId());
 
+            // check if no file uploaded
+            if (myFile.getFiledata().length == 0){
+                uploadError = "No file to upload.";
+            }
 
+
+            // check if file is existed
             if (!fileService.isFileAvailable(myFile.getFilename())) {
                 uploadError = "The file already exists.";
+            }
+
+            // check if the file is large
+            if (fileService.isFileLarge(myFile)){
+                uploadError = "The file is larger than 5MB.";
             }
 
 
@@ -63,7 +74,7 @@ public class FileController {
             model.addAttribute("uploadError", e.getMessage());
         }
 
-        model.addAttribute("files", this.fileService.getFiles());
+        model.addAttribute("files", this.fileService.getFiles(user.getUserId()));
         return "home";
     }
 
@@ -80,9 +91,10 @@ public class FileController {
     }
 
     @GetMapping("delete-files/{fileId}")
-    public String deleteFile(@PathVariable(name = "fileId") Integer fileId, Model model) {
+    public String deleteFile(Authentication authentication, @PathVariable(name = "fileId") Integer fileId, Model model) {
+        User user = userService.getUser(authentication.getName());
         fileService.deleteFile(fileId);
-        model.addAttribute("files", this.fileService.getFiles());
+        model.addAttribute("files", this.fileService.getFiles(user.getUserId()));
         return "home";
     }
 }

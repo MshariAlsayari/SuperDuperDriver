@@ -17,9 +17,21 @@ public class CredentialTest extends CloudStorageApplicationTests {
         String password = "Admin12345";
         HomePage homePage = doSingupAndLogin();
         initCredential(url, userName, password, homePage);
-        homePage.navigateToCredentialsTab();
+
+        ResultPage resultPage = new ResultPage(driver);
+        resultPage.clickHomeButton();
+
         homePage = new HomePage(driver);
+        homePage.navigateToCredentialsTab();
+
         deleteCredential(homePage);
+
+        resultPage = new ResultPage(driver);
+        resultPage.clickHomeButton();
+
+        homePage = new HomePage(driver);
+        homePage.navigateToCredentialsTab();
+
         boolean isNoCredentials= homePage.noCredentials(driver);
         Assertions.assertTrue(isNoCredentials);
     }
@@ -35,12 +47,14 @@ public class CredentialTest extends CloudStorageApplicationTests {
         String password = "Admin12345";
         HomePage homePage = doSingupAndLogin();
         initCredential(url, userName, password, homePage);
-        homePage.navigateToCredentialsTab();
+        ResultPage resultPage = new ResultPage(driver);
+        resultPage.clickHomeButton();
         homePage = new HomePage(driver);
+        homePage.navigateToCredentialsTab();
         Credential credential = homePage.getCredential();
         Assertions.assertEquals(url, credential.getUrl());
         Assertions.assertEquals(userName, credential.getUsername());
-        homePage.logout();
+
     }
 
     @Test
@@ -53,14 +67,25 @@ public class CredentialTest extends CloudStorageApplicationTests {
         String modifiedCredentialPassword = "My edit Credential Password";
         HomePage homePage = doSingupAndLogin();
         initCredential(url, userName, password, homePage);
-        homePage.navigateToCredentialsTab();
+
+        ResultPage resultPage = new ResultPage(driver);
+        resultPage.clickHomeButton();
+
         homePage = new HomePage(driver);
+        homePage.navigateToCredentialsTab();
+
         homePage.clickEditCredentialBtn();
         homePage.editCredentialUrl(modifiedCredentialUrl);
         homePage.editCredentialUsername(modifiedCredentialUsername);
         homePage.editCredentialPassword(modifiedCredentialPassword);
         homePage.clickSaveCredentialChangesBtn();
+
+        resultPage = new ResultPage(driver);
+        resultPage.clickHomeButton();
+
+        homePage = new HomePage(driver);
         homePage.navigateToCredentialsTab();
+
         Credential credential = homePage.getCredential();
         Assertions.assertEquals(modifiedCredentialUrl, credential.getUrl());
         Assertions.assertEquals(modifiedCredentialUsername, credential.getUsername());
@@ -73,6 +98,5 @@ public class CredentialTest extends CloudStorageApplicationTests {
         homePage.setCredentialUsername(userName);
         homePage.setCredentialPassword(password);
         homePage.clickSaveCredentialChangesBtn();
-        homePage.navigateToCredentialsTab();
     }
 }

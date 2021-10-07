@@ -47,7 +47,7 @@
                             </div>
 
                             <div id="error-msg" th:if="${uploadError}" class="alert alert-danger">
-                                <span>Example Upload Error Message.</span>
+                                <span th:text="${uploadError}">Example Upload Error Message.</span>
                             </div>
                         </div>
                     </div>
@@ -92,12 +92,6 @@
 
                 <div class="table-responsive">
                     <table class="table table-striped" id="userTable">
-                        <thead>
-                        <tr>
-                            <th  id="success-msg-add-note" th:if="${addNoteSuccess}" class="alert alert-dark" scope="col">You successfully adding the note.</th>
-                            <th id="error-msg-add-note" th:if="${addNoteError}" class="alert alert-danger" scope="col">Example adding Error Message.</th>
-                        </tr>
-                        </thead>
                         <thead>
                         <tr>
                             <th style="width: 20%" scope="col"></th>
@@ -191,7 +185,7 @@
                                         th:data-id="${credential.getCredentialId()}"
                                         th:data-url="${credential.getUrl()}"
                                         th:data-username="${credential.getUsername()}"
-                                        th:data-password="${credential.getPassword()}"
+                                        th:data-password = "${encryptionService.decryptValue(credential.getPassword(), credential.getKey())}"
                                         onclick="showCredentialModal(this.getAttribute('data-id'), this.getAttribute('data-url'), this.getAttribute('data-username'),
                                         this.getAttribute('data-password'))">
                                     Edit

@@ -20,6 +20,14 @@ public class NoteService {
         return noteMapper.getNote(noteId) != null;
     }
 
+    public boolean isValidTitle(String title){
+        return title.length() <= 20;
+    }
+
+    public boolean isValidDescription(String description){
+        return description.length() <= 1000;
+    }
+
     public boolean isDuplicated(Note note){
         return noteMapper.getNoteByTitleAndDescription(note.getNoteTitle(), note.getNoteDescription()) != null;
     }
@@ -35,7 +43,7 @@ public class NoteService {
          noteMapper.deleteNote(noteId);
     }
 
-    public List<Note> getAllNotes(){
-        return noteMapper.getAllNotes();
+    public List<Note> getAllNotes(Integer userId){
+        return noteMapper.getAllNotes(userId);
     }
 }

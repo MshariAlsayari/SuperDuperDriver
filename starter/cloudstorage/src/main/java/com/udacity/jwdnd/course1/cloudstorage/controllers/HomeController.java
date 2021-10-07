@@ -1,20 +1,11 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
 
-import com.udacity.jwdnd.course1.cloudstorage.models.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.models.File;
-import com.udacity.jwdnd.course1.cloudstorage.models.Note;
-import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.*;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.security.SecureRandom;
-import java.util.Base64;
 
 @Controller
 @RequestMapping("/home")
@@ -36,10 +27,12 @@ public class HomeController {
     }
 
     @GetMapping
-    public String homeView(Model model) {
-        model.addAttribute("files", this.fileService.getFiles());
-        model.addAttribute("notes", this.noteService.getAllNotes());
-        model.addAttribute("credentials", this.credentialService.getAllCredential());
+    public String homeView(Authentication authentication,Model model) {
+        Integer userId = userService.getUser(authentication.getName()).getUserId();
+        model.addAttribute("files", this.fileService.getFiles(userId));
+        model.addAttribute("notes", this.noteService.getAllNotes(userId));
+        model.addAttribute("credentials", this.credentialService.getAllCredential(userId));
+        model.addAttribute("encryptionService",encryptionService);
         return "home";
     }
 

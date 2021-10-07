@@ -3,6 +3,8 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mappers.CredentialMapper;
 import com.udacity.jwdnd.course1.cloudstorage.models.Credential;
+import org.apache.commons.validator.UrlValidator;
+import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +19,16 @@ public class CredentialService {
     }
 
     public boolean isExist(Integer credential){
-        return credentialMapper.getCredential(credential) != null;
+        return getCredential(credential) != null;
+    }
+
+    public boolean isUsernameExisted(String username){
+        return credentialMapper.getCredentialByUsername(username) != null;
+    }
+
+    public boolean isValidUrl(String url){
+        UrlValidator urlValidator = new UrlValidator();
+        return true;
     }
 
     public Credential getCredential(Integer credential){
@@ -32,8 +43,8 @@ public class CredentialService {
                 credential.getUserid()));
     }
 
-    public List<Credential> getAllCredential( ) {
-        return credentialMapper.getAllCredentials();
+    public List<Credential> getAllCredential(Integer userId ) {
+        return credentialMapper.getAllCredentials(userId);
     }
 
     public void deleteCredential(Integer credential) {
@@ -41,7 +52,7 @@ public class CredentialService {
     }
 
     public void updateCredential(Credential credential) {
-        credentialMapper.updateCredential(credential.getUserid(), credential.getUrl(), credential.getUsername(), credential.getPassword());
+        credentialMapper.updateCredential(credential.getUserid(), credential.getUrl(), credential.getUsername(), credential.getKey(), credential.getPassword());
     }
 
 

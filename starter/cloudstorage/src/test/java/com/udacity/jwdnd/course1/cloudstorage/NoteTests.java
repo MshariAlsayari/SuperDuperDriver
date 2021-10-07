@@ -22,12 +22,17 @@ class NoteTests extends CloudStorageApplicationTests {
 		String editedNoteDescription = "This is my edit note.";
 		HomePage homePage = doSingupAndLogin();
 		initNote(noteTitle, noteDescription, homePage);
-		homePage.navigateToNotesTab();
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickHomeButton();
 		homePage = new HomePage(driver);
+		homePage.navigateToNotesTab();
 		homePage.clickEdtNoteBtn();
 		homePage.editNoteTitle(editedNoteTitle);
 		homePage.editNoteDescription(editedNoteDescription);
 		homePage.clickSaveNoteChangesBtn();
+		resultPage = new ResultPage(driver);
+		resultPage.clickHomeButton();
+		homePage = new HomePage(driver);
 		homePage.navigateToNotesTab();
 		Note note = homePage.getNote();
 		Assertions.assertEquals(editedNoteTitle, note.getNoteTitle());
@@ -44,8 +49,10 @@ class NoteTests extends CloudStorageApplicationTests {
 		String noteDescription = "This is test note.";
 		HomePage homePage = doSingupAndLogin();
 		initNote(noteTitle, noteDescription, homePage);
-		homePage.navigateToNotesTab();
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickHomeButton();
 		homePage = new HomePage(driver);
+		homePage.navigateToNotesTab();
 		Note note = homePage.getNote();
 		Assertions.assertEquals(noteTitle, note.getNoteTitle());
 		Assertions.assertEquals(noteDescription, note.getNoteDescription());
@@ -58,9 +65,15 @@ class NoteTests extends CloudStorageApplicationTests {
 		String noteDescription = "This is test note";
 		HomePage homePage = doSingupAndLogin();
 		initNote(noteTitle, noteDescription, homePage);
-		homePage.navigateToNotesTab();
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickHomeButton();
 		homePage = new HomePage(driver);
+		homePage.navigateToNotesTab();
 		deleteNote(homePage);
+		resultPage = new ResultPage(driver);
+		resultPage.clickHomeButton();
+		homePage = new HomePage(driver);
+		homePage.navigateToNotesTab();
 		boolean isNoNote = homePage.noNotes(driver);
 		Assertions.assertTrue(isNoNote);
 	}
@@ -78,6 +91,5 @@ class NoteTests extends CloudStorageApplicationTests {
 		homePage.setNoteTitle(noteTitle);
 		homePage.setNoteDescription(noteDescription);
 		homePage.clickSaveNoteChangesBtn();
-		homePage.navigateToNotesTab();
 	}
 }
