@@ -56,6 +56,10 @@ class NoteTests extends CloudStorageApplicationTests {
 		Note note = homePage.getNote();
 		Assertions.assertEquals(noteTitle, note.getNoteTitle());
 		Assertions.assertEquals(noteDescription, note.getNoteDescription());
+		deleteNote(homePage);
+		resultPage = new ResultPage(driver);
+		resultPage.clickHomeButton();
+		homePage = new HomePage(driver);
 		homePage.logout();
 	}
 

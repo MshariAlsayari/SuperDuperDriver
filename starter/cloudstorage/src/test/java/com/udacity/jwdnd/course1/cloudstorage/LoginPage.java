@@ -31,7 +31,7 @@ public class LoginPage {
         js.executeScript("arguments[0].value='"+ password +"';", inputPassword);
     }
 
-    public void login() {
+    public void clickLoginBtn() {
         js.executeScript("arguments[0].click();", submitBtn);
     }
 }

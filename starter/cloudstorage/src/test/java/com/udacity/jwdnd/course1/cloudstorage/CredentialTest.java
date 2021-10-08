@@ -54,7 +54,11 @@ public class CredentialTest extends CloudStorageApplicationTests {
         Credential credential = homePage.getCredential();
         Assertions.assertEquals(url, credential.getUrl());
         Assertions.assertEquals(userName, credential.getUsername());
-
+        deleteCredential(homePage);
+        resultPage = new ResultPage(driver);
+        resultPage.clickHomeButton();
+        homePage = new HomePage(driver);
+        homePage.logout();
     }
 
     @Test
@@ -63,7 +67,7 @@ public class CredentialTest extends CloudStorageApplicationTests {
         String userName = "Admin";
         String password = "Admin12345";
         String modifiedCredentialUrl = "My edit Credential URL";
-        String modifiedCredentialUsername = "My edit Credential Usernam";
+        String modifiedCredentialUsername = "Admin";
         String modifiedCredentialPassword = "My edit Credential Password";
         HomePage homePage = doSingupAndLogin();
         initCredential(url, userName, password, homePage);
@@ -87,8 +91,8 @@ public class CredentialTest extends CloudStorageApplicationTests {
         homePage.navigateToCredentialsTab();
 
         Credential credential = homePage.getCredential();
-        Assertions.assertEquals(modifiedCredentialUrl, credential.getUrl());
         Assertions.assertEquals(modifiedCredentialUsername, credential.getUsername());
+        homePage.logout();
     }
 
     private void initCredential(String url, String userName, String password, HomePage homePage) {

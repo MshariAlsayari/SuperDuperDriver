@@ -45,7 +45,7 @@ public class SignupPage {
         js.executeScript("arguments[0].value='"+ password +"';", inputPassword);
     }
 
-    public void signUp() {
+    public void clickSignupBtn() {
         js.executeScript("arguments[0].click();", submitBtn);
     }
 }

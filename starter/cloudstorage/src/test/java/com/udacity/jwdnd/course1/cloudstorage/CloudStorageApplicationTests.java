@@ -49,11 +49,6 @@ class CloudStorageApplicationTests {
 	public void getSignppPage() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		SignupPage signupPage = new SignupPage(driver);
-		signupPage.setFirstName("Mshari");
-		signupPage.setLastName("Alsayari");
-		signupPage.setUserName("mshari");
-		signupPage.setPassword("mshari");
-		signupPage.signUp();
 		Assertions.assertEquals("Sign Up", driver.getTitle());
 	}
 
@@ -64,12 +59,12 @@ class CloudStorageApplicationTests {
 		signupPage.setLastName("Alsayari");
 		signupPage.setUserName("mshari");
 		signupPage.setPassword("mshari");
-		signupPage.signUp();
+		signupPage.clickSignupBtn();
 		driver.get("http://localhost:" + this.port + "/login");
 		LoginPage loginPage = new LoginPage(driver);
 		loginPage.setUserName("mshari");
 		loginPage.setPassword("mshari");
-		loginPage.login();
+		loginPage.clickLoginBtn();
 
 		return new HomePage(driver);
 	}

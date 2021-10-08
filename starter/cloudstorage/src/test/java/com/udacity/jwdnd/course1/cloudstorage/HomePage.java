@@ -213,7 +213,7 @@ public class HomePage {
 
     public Credential getCredential() {
         String url =  wait.until(ExpectedConditions.elementToBeClickable(tblCredentialUrl)).getText();
-        String username = tblCredentialUsername.getText();
+        String username = wait.until(ExpectedConditions.elementToBeClickable(tblCredentialUsername)).getText();
         String password = tblCredentialPassword.getText();
         return new Credential(url, username, password);
     }

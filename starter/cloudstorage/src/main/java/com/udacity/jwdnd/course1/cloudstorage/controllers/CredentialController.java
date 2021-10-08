@@ -54,14 +54,16 @@ public class CredentialController {
             if (credentialService.isExist(credential.getCredentialId())) {
                 String password = credential.getPassword();
                 Credential existedCredential = credentialService.getCredential(credential.getUserid());
-                String existedPassword = encryptionService.decryptValue(existedCredential.getPassword(), existedCredential.getKey());
-                // need to update
-                if (!password.equals(existedPassword)){
-                    credential.setKey(encodedKey);
-                    credential.setPassword(encryptedPassword);
-                }else{
-                    credential.setKey(existedCredential.getKey());
-                    credential.setPassword(existedCredential.getPassword());
+                if (existedCredential !=null ) {
+                    String existedPassword = encryptionService.decryptValue(existedCredential.getPassword(), existedCredential.getKey());
+                    // need to update
+                    if (!password.equals(existedPassword)) {
+                        credential.setKey(encodedKey);
+                        credential.setPassword(encryptedPassword);
+                    } else {
+                        credential.setKey(existedCredential.getKey());
+                        credential.setPassword(existedCredential.getPassword());
+                    }
                 }
                 credentialService.updateCredential(credential);
                 status = STATUS.success;
