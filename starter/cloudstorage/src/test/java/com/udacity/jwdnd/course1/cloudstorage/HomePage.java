@@ -56,10 +56,10 @@ public class HomePage {
     private WebElement txtModifyNoteDescription;
 
     @FindBy(id = "ancDeleteNote")
-    private WebElement ancDeleteNote;
+    private WebElement deleteNoteBtn;
 
     @FindBy(id = "aDeleteCredential")
-    private WebElement aDeleteCredential;
+    private WebElement deleteCredentialBtn;
 
     @FindBy(id = "credential-url")
     private WebElement txtCredentialUrl;
@@ -92,7 +92,7 @@ public class HomePage {
         wait = new WebDriverWait(driver, 500);
     }
 
-    public void logout() {
+    public void clickLogoutBtn() {
         js.executeScript("arguments[0].click();", logoutButton);
     }
 
@@ -104,17 +104,14 @@ public class HomePage {
         js.executeScript("arguments[0].click();", btnEditCredential);
     }
 
-    public void deleteNote() {
-        js.executeScript("arguments[0].click();", ancDeleteNote);
+    public void clickDeletNoteBtn() {
+        js.executeScript("arguments[0].click();", deleteNoteBtn);
     }
 
-    public void deleteCredential() {
-        js.executeScript("arguments[0].click();", aDeleteCredential);
+    public void clickDeleteCredentialBtn() {
+        js.executeScript("arguments[0].click();", deleteCredentialBtn);
     }
 
-    public void uploadFile() {
-        js.executeScript("arguments[0].click();", fileUpload);
-    }
 
     public void addNewNote() {
         js.executeScript("arguments[0].click();", btnAddNewNote);
@@ -185,11 +182,11 @@ public class HomePage {
         js.executeScript("arguments[0].click();", btnCredentialSaveChanges);
     }
 
-    public boolean noNotes(WebDriver driver) {
+    public boolean isNotesEmpty(WebDriver driver) {
         return !isElementPresent(By.id("tableNoteTitle"), driver) && !isElementPresent(By.id("tableNoteDescription"), driver);
     }
 
-    public boolean noCredentials(WebDriver driver) {
+    public boolean isCredentialsEmpty(WebDriver driver) {
         return !isElementPresent(By.id("tblCredentialUrl"), driver) &&
                 !isElementPresent(By.id("tblCredentialUsername"), driver) &&
                 !isElementPresent(By.id("tblCredentialPassword"), driver);

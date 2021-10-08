@@ -10,38 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class CredentialTest extends CloudStorageApplicationTests {
 
 
-    @Test
-    public void testDelete() {
-        String url = "localhost";
-        String userName = "Admin";
-        String password = "Admin12345";
-        HomePage homePage = doSingupAndLogin();
-        initCredential(url, userName, password, homePage);
-
-        ResultPage resultPage = new ResultPage(driver);
-        resultPage.clickHomeButton();
-
-        homePage = new HomePage(driver);
-        homePage.navigateToCredentialsTab();
-
-        deleteCredential(homePage);
-
-        resultPage = new ResultPage(driver);
-        resultPage.clickHomeButton();
-
-        homePage = new HomePage(driver);
-        homePage.navigateToCredentialsTab();
-
-        boolean isNoCredentials= homePage.noCredentials(driver);
-        Assertions.assertTrue(isNoCredentials);
-    }
-
-    private void deleteCredential(HomePage homePage) {
-        homePage.deleteCredential();
-    }
 
     @Test
-    public void testCreateAndDisplay() {
+    public void test_init_credential() {
         String url = "localhost";
         String userName = "Admin";
         String password = "Admin12345";
@@ -58,11 +29,12 @@ public class CredentialTest extends CloudStorageApplicationTests {
         resultPage = new ResultPage(driver);
         resultPage.clickHomeButton();
         homePage = new HomePage(driver);
-        homePage.logout();
+        homePage.clickLogoutBtn();
     }
 
+
     @Test
-    public void testModify() {
+    public void test_edit_credential() {
         String url = "localhost";
         String userName = "Admin";
         String password = "Admin12345";
@@ -71,28 +43,47 @@ public class CredentialTest extends CloudStorageApplicationTests {
         String modifiedCredentialPassword = "My edit Credential Password";
         HomePage homePage = doSingupAndLogin();
         initCredential(url, userName, password, homePage);
-
         ResultPage resultPage = new ResultPage(driver);
         resultPage.clickHomeButton();
-
         homePage = new HomePage(driver);
         homePage.navigateToCredentialsTab();
-
         homePage.clickEditCredentialBtn();
         homePage.editCredentialUrl(modifiedCredentialUrl);
         homePage.editCredentialUsername(modifiedCredentialUsername);
         homePage.editCredentialPassword(modifiedCredentialPassword);
         homePage.clickSaveCredentialChangesBtn();
-
         resultPage = new ResultPage(driver);
         resultPage.clickHomeButton();
-
         homePage = new HomePage(driver);
         homePage.navigateToCredentialsTab();
-
         Credential credential = homePage.getCredential();
         Assertions.assertEquals(modifiedCredentialUsername, credential.getUsername());
-        homePage.logout();
+        homePage.clickLogoutBtn();
+    }
+
+    @Test
+    public void test_delete_credential() {
+        String url = "localhost";
+        String userName = "Admin";
+        String password = "Admin12345";
+        HomePage homePage = doSingupAndLogin();
+        initCredential(url, userName, password, homePage);
+        ResultPage resultPage = new ResultPage(driver);
+        resultPage.clickHomeButton();
+        homePage = new HomePage(driver);
+        homePage.navigateToCredentialsTab();
+        deleteCredential(homePage);
+        resultPage = new ResultPage(driver);
+        resultPage.clickHomeButton();
+        homePage = new HomePage(driver);
+        homePage.navigateToCredentialsTab();
+        boolean isNoCredentials= homePage.isCredentialsEmpty(driver);
+        Assertions.assertTrue(isNoCredentials);
+    }
+
+
+    private void deleteCredential(HomePage homePage) {
+        homePage.clickDeleteCredentialBtn();
     }
 
     private void initCredential(String url, String userName, String password, HomePage homePage) {

@@ -13,9 +13,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 class NoteTests extends CloudStorageApplicationTests {
 
 
+	@Test
+	public void test_init_note() {
+		String noteTitle = "test Note";
+		String noteDescription = "This is test note.";
+		HomePage homePage = doSingupAndLogin();
+		initNote(noteTitle, noteDescription, homePage);
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickHomeButton();
+		homePage = new HomePage(driver);
+		homePage.navigateToNotesTab();
+		Note note = homePage.getNote();
+		Assertions.assertEquals(noteTitle, note.getNoteTitle());
+		Assertions.assertEquals(noteDescription, note.getNoteDescription());
+		deleteNote(homePage);
+		resultPage = new ResultPage(driver);
+		resultPage.clickHomeButton();
+		homePage = new HomePage(driver);
+		homePage.clickLogoutBtn();
+	}
+
 
 	@Test
-	public void testModify() {
+	public void test_edit_note() {
 		String noteTitle = "test Note";
 		String noteDescription = "This is test note.";
 		String editedNoteTitle = "My edit Note";
@@ -40,31 +60,8 @@ class NoteTests extends CloudStorageApplicationTests {
 	}
 
 
-
-
-
 	@Test
-	public void testCreateAndDisplay() {
-		String noteTitle = "test Note";
-		String noteDescription = "This is test note.";
-		HomePage homePage = doSingupAndLogin();
-		initNote(noteTitle, noteDescription, homePage);
-		ResultPage resultPage = new ResultPage(driver);
-		resultPage.clickHomeButton();
-		homePage = new HomePage(driver);
-		homePage.navigateToNotesTab();
-		Note note = homePage.getNote();
-		Assertions.assertEquals(noteTitle, note.getNoteTitle());
-		Assertions.assertEquals(noteDescription, note.getNoteDescription());
-		deleteNote(homePage);
-		resultPage = new ResultPage(driver);
-		resultPage.clickHomeButton();
-		homePage = new HomePage(driver);
-		homePage.logout();
-	}
-
-	@Test
-	public void testDelete() {
+	public void test_delete_note() {
 		String noteTitle = "test Note";
 		String noteDescription = "This is test note";
 		HomePage homePage = doSingupAndLogin();
@@ -78,16 +75,15 @@ class NoteTests extends CloudStorageApplicationTests {
 		resultPage.clickHomeButton();
 		homePage = new HomePage(driver);
 		homePage.navigateToNotesTab();
-		boolean isNoNote = homePage.noNotes(driver);
+		boolean isNoNote = homePage.isNotesEmpty(driver);
 		Assertions.assertTrue(isNoNote);
 	}
 
+
+
 	private void deleteNote(HomePage homePage) {
-		homePage.deleteNote();
+		homePage.clickDeletNoteBtn();
 	}
-
-
-
 
 	private void initNote(String noteTitle, String noteDescription, HomePage homePage) {
 		homePage.navigateToNotesTab();
