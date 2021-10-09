@@ -19,7 +19,7 @@ public class CredentialTest extends CloudStorageApplicationTests {
         HomePage homePage = doSingupAndLogin();
         initCredential(url, userName, password, homePage);
         ResultPage resultPage = new ResultPage(driver);
-        resultPage.clickHomeButton();
+        resultPage.clickHomeButton(driver);
         homePage = new HomePage(driver);
         homePage.navigateToCredentialsTab();
         Credential credential = homePage.getCredential();
@@ -27,7 +27,7 @@ public class CredentialTest extends CloudStorageApplicationTests {
         Assertions.assertEquals(userName, credential.getUsername());
         deleteCredential(homePage);
         resultPage = new ResultPage(driver);
-        resultPage.clickHomeButton();
+        resultPage.clickHomeButton(driver);
         homePage = new HomePage(driver);
         homePage.clickLogoutBtn();
     }
@@ -44,7 +44,7 @@ public class CredentialTest extends CloudStorageApplicationTests {
         HomePage homePage = doSingupAndLogin();
         initCredential(url, userName, password, homePage);
         ResultPage resultPage = new ResultPage(driver);
-        resultPage.clickHomeButton();
+        resultPage.clickHomeButton(driver);
         homePage = new HomePage(driver);
         homePage.navigateToCredentialsTab();
         homePage.clickEditCredentialBtn();
@@ -53,7 +53,7 @@ public class CredentialTest extends CloudStorageApplicationTests {
         homePage.editCredentialPassword(modifiedCredentialPassword);
         homePage.clickSaveCredentialChangesBtn();
         resultPage = new ResultPage(driver);
-        resultPage.clickHomeButton();
+        resultPage.clickHomeButton(driver);
         homePage = new HomePage(driver);
         homePage.navigateToCredentialsTab();
         Credential credential = homePage.getCredential();
@@ -69,12 +69,12 @@ public class CredentialTest extends CloudStorageApplicationTests {
         HomePage homePage = doSingupAndLogin();
         initCredential(url, userName, password, homePage);
         ResultPage resultPage = new ResultPage(driver);
-        resultPage.clickHomeButton();
+        resultPage.clickHomeButton(driver);
         homePage = new HomePage(driver);
         homePage.navigateToCredentialsTab();
         deleteCredential(homePage);
         resultPage = new ResultPage(driver);
-        resultPage.clickHomeButton();
+        resultPage.clickHomeButton(driver);
         homePage = new HomePage(driver);
         homePage.navigateToCredentialsTab();
         boolean isNoCredentials= homePage.isCredentialsEmpty(driver);

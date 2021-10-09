@@ -16,29 +16,29 @@ public class HomePage {
     @FindBy(id = "btnLogout")
     private WebElement logoutButton;
 
-    @FindBy(id = "fileUpload")
-    private WebElement fileUpload;
-
     @FindBy(id = "btnAddNewNote")
     private WebElement btnAddNewNote;
 
-    @FindBy(id = "btnAddNewCredential")
-    private WebElement btnAddNewCredential;
-
-    @FindBy(id = "note-title")
-    private WebElement txtNoteTitle;
-
     @FindBy(id = "nav-notes-tab")
-    private WebElement navNotesTab;
+    private WebElement noteTab;
 
     @FindBy(id = "nav-credentials-tab")
-    private WebElement navCredentialsTab;
+    private WebElement credentialTab;
+
+    @FindBy(id = "note-title")
+    private WebElement noteTitle;
 
     @FindBy(id = "note-description")
-    private WebElement txtNoteDescription;
+    private WebElement noteDescription;
 
     @FindBy(id = "btnSaveChanges")
-    private WebElement btnSaveChanges;
+    private WebElement btnSaveNoteChanges;
+
+    @FindBy(id = "ancDeleteNote")
+    private WebElement btnDeleteNoteButton;
+
+    @FindBy(id = "btnEditNote")
+    private WebElement btnEditNote;
 
     @FindBy(id = "tableNoteTitle")
     private WebElement tableNoteTitle;
@@ -46,41 +46,35 @@ public class HomePage {
     @FindBy(id = "tableNoteDescription")
     private WebElement tableNoteDescription;
 
-    @FindBy(id = "btnEditNote")
-    private WebElement btnEditNote;
+    @FindBy(id = "btnAddNewCredential")
+    private WebElement btnAddNewCredential;
 
     @FindBy(id = "btnEditCredential")
     private WebElement btnEditCredential;
 
-    @FindBy(id = "note-description")
-    private WebElement txtModifyNoteDescription;
-
-    @FindBy(id = "ancDeleteNote")
-    private WebElement deleteNoteBtn;
-
     @FindBy(id = "aDeleteCredential")
-    private WebElement deleteCredentialBtn;
+    private WebElement btnDeleteCredential;
 
     @FindBy(id = "credential-url")
-    private WebElement txtCredentialUrl;
+    private WebElement credentialUrl;
 
     @FindBy(id = "credential-username")
-    private WebElement txtCredentialUsername;
+    private WebElement credentialUsername;
 
     @FindBy(id = "credential-password")
-    private WebElement txtCredentialPassword;
+    private WebElement credentialPassword;
 
     @FindBy(id = "btnCredentialSaveChanges")
     private WebElement btnCredentialSaveChanges;
 
     @FindBy(id = "tblCredentialUrl")
-    private WebElement tblCredentialUrl;
+    private WebElement tableCredentialUrl;
 
     @FindBy(id = "tblCredentialUsername")
-    private WebElement tblCredentialUsername;
+    private WebElement tableCredentialUsername;
 
     @FindBy(id = "tblCredentialPassword")
-    private WebElement tblCredentialPassword;
+    private WebElement tablCredentialPassword;
 
     private final JavascriptExecutor js;
 
@@ -105,11 +99,11 @@ public class HomePage {
     }
 
     public void clickDeletNoteBtn() {
-        js.executeScript("arguments[0].click();", deleteNoteBtn);
+        js.executeScript("arguments[0].click();", btnDeleteNoteButton);
     }
 
     public void clickDeleteCredentialBtn() {
-        js.executeScript("arguments[0].click();", deleteCredentialBtn);
+        js.executeScript("arguments[0].click();", btnDeleteCredential);
     }
 
 
@@ -122,60 +116,60 @@ public class HomePage {
     }
 
     public void setNoteTitle(String noteTitle) {
-        js.executeScript("arguments[0].value='" + noteTitle + "';", txtNoteTitle);
+        js.executeScript("arguments[0].value='" + noteTitle + "';", this.noteTitle);
     }
 
     public void setCredentialUrl(String url) {
-        js.executeScript("arguments[0].value='" + url + "';", txtCredentialUrl);
+        js.executeScript("arguments[0].value='" + url + "';", credentialUrl);
     }
 
     public void setCredentialUsername(String username) {
-        js.executeScript("arguments[0].value='" + username + "';", txtCredentialUsername);
+        js.executeScript("arguments[0].value='" + username + "';", credentialUsername);
     }
 
     public void setCredentialPassword(String password) {
-        js.executeScript("arguments[0].value='" + password + "';", txtCredentialPassword);
+        js.executeScript("arguments[0].value='" + password + "';", credentialPassword);
     }
 
     public void editNoteTitle(String newNoteTitle) {
-        wait.until(ExpectedConditions.elementToBeClickable(txtNoteTitle)).clear();
-        wait.until(ExpectedConditions.elementToBeClickable(txtNoteTitle)).sendKeys(newNoteTitle);
+        wait.until(ExpectedConditions.elementToBeClickable(noteTitle)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(noteTitle)).sendKeys(newNoteTitle);
     }
 
     public void editNoteDescription(String newNoteDescription) {
-        wait.until(ExpectedConditions.elementToBeClickable(txtModifyNoteDescription)).clear();
-        wait.until(ExpectedConditions.elementToBeClickable(txtModifyNoteDescription)).sendKeys(newNoteDescription);
+        wait.until(ExpectedConditions.elementToBeClickable(noteDescription)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(noteDescription)).sendKeys(newNoteDescription);
     }
 
     public void editCredentialUrl(String newCredentialUrl) {
-        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUrl)).clear();
-        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUrl)).sendKeys(newCredentialUrl);
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUrl)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUrl)).sendKeys(newCredentialUrl);
     }
 
     public void editCredentialUsername(String newUsername) {
-        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUsername)).clear();
-        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialUsername)).sendKeys(newUsername);
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUsername)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUsername)).sendKeys(newUsername);
     }
 
     public void editCredentialPassword(String newPassword) {
-        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialPassword)).clear();
-        wait.until(ExpectedConditions.elementToBeClickable(txtCredentialPassword)).sendKeys(newPassword);
+        wait.until(ExpectedConditions.elementToBeClickable(credentialPassword)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialPassword)).sendKeys(newPassword);
     }
 
     public void navigateToNotesTab() {
-        js.executeScript("arguments[0].click();", navNotesTab);
+        js.executeScript("arguments[0].click();", noteTab);
     }
 
     public void navigateToCredentialsTab() {
-        js.executeScript("arguments[0].click();", navCredentialsTab);
+        js.executeScript("arguments[0].click();", credentialTab);
     }
 
     public void setNoteDescription(String noteDescription) {
-        js.executeScript("arguments[0].value='"+ noteDescription +"';", txtNoteDescription);
+        js.executeScript("arguments[0].value='"+ noteDescription +"';", this.noteDescription);
     }
 
     public void clickSaveNoteChangesBtn() {
-        js.executeScript("arguments[0].click();", btnSaveChanges);
+        js.executeScript("arguments[0].click();", btnSaveNoteChanges);
     }
 
     public void clickSaveCredentialChangesBtn() {
@@ -209,9 +203,9 @@ public class HomePage {
     }
 
     public Credential getCredential() {
-        String url =  wait.until(ExpectedConditions.elementToBeClickable(tblCredentialUrl)).getText();
-        String username = wait.until(ExpectedConditions.elementToBeClickable(tblCredentialUsername)).getText();
-        String password = tblCredentialPassword.getText();
+        String url =  wait.until(ExpectedConditions.elementToBeClickable(tableCredentialUrl)).getText();
+        String username = wait.until(ExpectedConditions.elementToBeClickable(tableCredentialUsername)).getText();
+        String password = tablCredentialPassword.getText();
         return new Credential(url, username, password);
     }
 
